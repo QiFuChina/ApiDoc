@@ -25,7 +25,7 @@
    
 ## 任务结构
 
-![image](res/img/任务结构图.jpg)
+![image](https://github.com/QiFuChina/ApiDoc/blob/main/res/img/%E4%BB%BB%E5%8A%A1%E7%BB%93%E6%9E%84%E5%9B%BE.jpg)
    
 ## 接口、结构和执行命令
 
