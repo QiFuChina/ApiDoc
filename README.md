@@ -87,7 +87,7 @@
     
 ### http调用方式
 #### 目前通过[Fastapi](https://github.com/tiangolo/fastapi)提供的服务执行，根据文档内容配置执行环境
-   调用服务方式 ```uvicorn main:app --reload```
+   调用服务方式 ```uvicorn http_command:app --reload```
    
    浏览器输入 ```http://127.0.0.1:8000/docs``` 进入Api页面
   
@@ -106,6 +106,7 @@ Api获取的Json数据结构，以字符串形式传递
         lip_outfile:str = ' '
    
 Post请求，Json格式的```Request body``` 将根据输入参数更新字典结构中的各字典值，随后通过调用```api_command()``` 准备执行外部程序命令
+<font color='red'>目前jason传递手动复制的参数时由于反斜杠的格式不匹配，部分路径传递值转换不完全</font>
 
     @app.post("/api/")
     def api_dict_update(api:Api= Body(embed=True)):
