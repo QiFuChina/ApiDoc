@@ -75,12 +75,12 @@
 执行环境和执行文件路径已经设置好，此方法目前仅获取文件输入的相关参数
 
     def api_dict_update(args1,args2,args3,args4,args5,args6):
-        mock_dict['--input_txt']=args1
-        mock_dict['--input_wav']=args2
-        mock_dict['--output_wav']=args3
-        rvm_dict['--input-source']=args4
-        rvm_dict['--output-composition']=args5
-        lip_dict['--outfile']=args6
+        mock_dict['--input_txt']=args1                          
+        mock_dict['--input_wav']=args2                          
+        mock_dict['--output_wav']=args3                         
+        rvm_dict['--input-source']=args4                        
+        rvm_dict['--output-composition']=args5                  
+        lip_dict['--outfile']=args6                             
         api_command()
         pass
     
@@ -110,13 +110,13 @@ Post请求，Json格式的```Request body``` 将根据输入参数更新字典�
 
     @app.post("/api/")
     def api_dict_update(api:Api= Body(embed=True)):
-        mock_dict['--input_txt']=api.mock_input_txt
-        mock_dict['--input_wav']=api.mock_input_wav
-        mock_dict['--synthesizer_path']=api.mock_synthesizer_path
-        mock_dict['--output_wav']=api.mock_output_wav
-        rvm_dict['--input-source']=api.rvm_input_source
-        rvm_dict['--output-composition']=api.rvm_output_composition
-        lip_dict['--outfile']=api.lip_outfile
+        mock_dict['--input_txt']=api.mock_input_txt                         #需要获取的文本文件(目前为获取txt文件路径例如'F:/Test/mock/input_txt/input.txt')
+        mock_dict['--input_wav']=api.mock_input_wav                         #需要参考的音频文件(目前为获取wav文件路径的方式,例如'F:/Test/mock/input_wav/input.wav')    
+        mock_dict['--synthesizer_path']=api.mock_synthesizer_path           #需要参考的模型文件(目前为获取wav文件路径的方式,例如'F:/Test/mock/synthesizer_path/input.pt')
+        mock_dict['--output_wav']=api.mock_output_wav                       #生成的音频文件保存路径(例如'F:/Test/mock/output/svdsf.wav')
+        rvm_dict['--input-source']=api.rvm_input_source                     #需要输入的视频文件(目前为获取mp4文件路径的方式,例如'F:/Test/rvm/input/input.mp4')
+        rvm_dict['--output-composition']=api.rvm_output_composition         #生成的视频文件保存路径(例如'F:/Test/rvm/output/dfbbbbbd.mp4')
+        lip_dict['--outfile']=api.lip_outfile                               #最后合成的视频文件保存路径(例如'F:/Test/lip/results/test/result.mp4')
         api_command()
         pass
 
