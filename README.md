@@ -126,29 +126,55 @@ Get请求结构与Post类似，可通过Json格式的```Request body``` 或输�
 
     def api_command():
         task_list=[]
-        解析字典格式，转化为可被terminal执行的语句
-        for key,value in api_dict.items():
+                                          
+        for key,value in api_dict.items():                      #解析api_dict字典格式，转化为可被terminal执行的语句
             api_cmd=''
-            for k,v in value.items():
-            ······
-            id=get_uuid()
+            for k,v in value.items():                           #对字典内的字典结构继续解析，分别解析出对应字典结构的执行命令
+                if v=='':                                       #如果某参数传递值为空，执行命令中将不添加此参数，执行时会使用默认的参数值
+                    continue
+                api_cmd=api_cmd+k+'  '+v+' '
+            api_cmd=api_cmd.split(' ',maxsplit=1)               #分割1次字符串，分割的第一部分为对应的虚拟环境名称，第二部分为需要执行的外部程序命令
+            id=get_uuid()                                       #创建uuid
+                                                                #创建外部程序执行命令的语句
             cmd='conda activate {} && python {}'.format(api_cmd[0], api_cmd[1])
-            sta=None
-            一次获取一个功能的执行命令，随后实例化任务信息类(任务ID、任务语句和任务执行状态)并添加到子任务列表中
-            task_list.append(task_info(id,cmd,sta))
-        每一个子任务列表作为一个任务元素添加进总任务列表中
-        all_task_list_append(task_list)
-        return          
+            sta=None                                            #定义执行状态
+            
+            task_list.append(task_info(id,cmd,sta))             #一次获取一个功能的执行命令，随后实例化任务信息类(任务ID、任务语句和任务执行状态)并添加到子任务列表中
+        all_task_list_append(task_list)                         #每一个子任务列表包含3个子任务，作为一个任务元素添加进总任务列表中
+        return           
 
-   启动外部程序执行命令的方法
+
+单个任务的类结构(*生成外部程序执行命令时实例化子任务类，被添加到子任务列表中*)    
+
+    class task_info:
+        def __init__(self,uuid,cmd,status):
+            self.uuid=uuid
+            self.cmd=cmd
+            self.status=status
+
+
+
+简单查阅输出任务类的信息
+
+
+    def show_task_info():
+        #print(all_task_list[0])
+        for task in all_task_list:
+            for task_info in task:
+                print(task_info.uuid)
+                print(task_info.cmd)
+                print(task_info.status)
+        
+        pass
+
+
+   调用外部程序执行命令的方法
    
        def execute_task(i):
-           for task in all_task_list[i]:
+           for task in all_task_list[i]:                        #根据输入参数i的索引值执行任务列表里对应的任务，每个任务内下分3个子任务
                print(task.uuid)
-               task.status="*"
-               subprocess模块调用外部程序执行命令，根据执行结果获得returncode，并将状态更新为returncode的值
-               q=subprocess.Popen(task.cmd,shell=True)
-               wait确保子进程的执行优先级
-               q.wait()
+               task.status="*"                                  
+               q=subprocess.Popen(task.cmd,shell=True)          #subprocess模块调用外部程序执行命令，执行结束获得returncode，并将状态更新为returncode的值
+               q.wait()                                         #wait确保子进程的执行顺序
                task.status=q.returncode
            pass
